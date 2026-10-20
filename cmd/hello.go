@@ -22,7 +22,19 @@ lines
 
 is shown when you run ` + "`go run main.go hello --help`",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("RAAAAAHHHH")
+		yay, err := cmd.Flags().GetBool("yay")
+		if err != nil || yay != true {
+			fmt.Println("RAAAAAHHHH")
+		} else {
+			fmt.Println("yay!")
+		}
+
+		num, err := cmd.Flags().GetInt("num")
+		if err != nil {
+			fmt.Println("Got no num :(")
+		} else {
+			fmt.Println(num)
+		}
 	},
 }
 
@@ -38,4 +50,6 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// helloCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	helloCmd.Flags().BoolP("yay", "y", false, "Changes message to yay") // BoolP is like Bool, but with a shorthand
+	helloCmd.Flags().IntP("num", "n", 0, "An integer that's printed")
 }
